@@ -17,9 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Watchman
-        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc sysctl.conf && sudo sysctl -p
-
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
@@ -40,6 +37,9 @@ jobs:
 
       - run: yarn
         working-directory: ./test
+
+      - name: Setup Watchman
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc sysctl.conf && sudo sysctl -p
 
       - name: Prepare Release
         run: ./prepare_release.sh
